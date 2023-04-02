@@ -1,0 +1,36 @@
+{
+    "manifest_version": 3,
+    "name": "Jobsy",
+    "version": "1.0",
+    "description":"A jobsy companion extension",
+    "icons":{
+        "128": "Jobsy.png",
+        "48": "Jobsy.png",
+        "16": "Jobsy.png"
+    },
+
+    "action":{
+        "default_popup":"popup.html",
+        "default_title": "Jobsy",
+        "default_icon": "Jobsy.png"
+    },
+    "options_page":"options.html",
+    "background":{
+        "service_worker":"background.js"
+        
+    },
+    "content_scripts":[
+        {
+            "matches":["https://www.linkedin.com/*"],
+            "js":["contentScript_linkedin.js"]
+        },
+        {
+            "matches":["https://il.indeed.com/*"],
+            "js":["contentScript_indeed.js"]
+        }
+    ],
+    "permissions": [
+        "storage","activeTab","tabs","contextMenus"
+      ]
+
+}
