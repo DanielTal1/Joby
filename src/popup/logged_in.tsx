@@ -10,6 +10,7 @@ const App=()=> {
     const [jobTitle , setJobTitle] =useState("");
     const [location , setLocation] =useState("");
     const [company , setCompany] =useState("");
+    const [url , setUrl] =useState("");
     const[error, setError]=useState("");
     const[send,setSend]=useState(false);
     chrome.runtime.connect({ name: "popup" });
@@ -37,11 +38,14 @@ const App=()=> {
                 (document.getElementById("Company") as HTMLInputElement).value=data.company;
             }
         });
+        chrome.storage.local.get("url", function(data) {
+            if(data.url!=null){
+                setUrl(data.url);
+                console.log(url);
+            }
+        });
+
       }, []); 
-
-
-
-
 
 
 
@@ -79,7 +83,7 @@ const App=()=> {
     const init = {
         method: 'POST',
         headers,
-        body:JSON.stringify({ username:userName,company:company,location:location,role:jobTitle })
+        body:JSON.stringify({ username:userName,company:company,location:location,role:jobTitle,url:url })
       };
 
     const sendJob=(async()=>{
@@ -110,7 +114,6 @@ const App=()=> {
                 setJobTitle(request.data.content)
             }
             else if(request.msg=="addLocation"){
-    
                 (document.getElementById("Location") as HTMLInputElement).value=request.data.content
                 setLocation(request.data.content)
             }

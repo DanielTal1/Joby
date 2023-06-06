@@ -14,16 +14,12 @@ const App=()=> {
     function changeStorage(value){
         if(value==="linkedin_disable"){
             chrome.storage.local.set({isLinkedin: false});
-            alert("false_linkedin")
         } else if(value==="linkedin_enable"){
             chrome.storage.local.set({isLinkedin: true});
-            alert("true_linkedin")
         } else if(value==="indeed_enable"){
             chrome.storage.local.set({isIndeed: true});
-            alert("true_Indeed")
         }else if(value==="indeed_disable"){
             chrome.storage.local.set({isIndeed: false});
-            alert("false_Indeed")
         }
     }
 
@@ -52,6 +48,7 @@ const App=()=> {
         chrome.storage.local.set({jobTitle:""});
         chrome.storage.local.set({location:""});
         chrome.storage.local.set({company:""});
+        chrome.storage.local.set({url: ""});
         window.close();
     };
     

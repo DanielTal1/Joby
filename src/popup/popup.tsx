@@ -59,7 +59,6 @@ const App=()=> {
             }
             setIsChecked(true)
         } )
-
     })
 
     //checks if there are no errors and user found in database

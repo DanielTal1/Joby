@@ -19,12 +19,25 @@ chrome.tabs.onUpdated.addListener(
     }
   );
 
-chrome.runtime.onMessage.addListener((msg,sender,sendResponse)=>{
+chrome.runtime.onMessage.addListener(async (msg,sender,sendResponse)=>{
     if(msg==='openForm'){
         chrome.storage.local.set({window_open: true});
         openForm();
     }
+    if(msg==='getUrl'){
+      await getUrl();
+    }
 });
+
+
+async function getUrl(){
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs && tabs.length > 0) {
+      const { url } = tabs[0];
+      chrome.storage.local.set({url: url});
+       console.log(url);
+    }});
+}
 
 
 chrome.windows.onRemoved.addListener(function(windowid) {
@@ -32,6 +45,7 @@ chrome.windows.onRemoved.addListener(function(windowid) {
     chrome.storage.local.set({location:""});
     chrome.storage.local.set({company:""});
     chrome.storage.local.set({window_open: false});
+    chrome.storage.local.set({url: ""});
    })
 
 function openForm(){
@@ -83,6 +97,7 @@ chrome.runtime.onConnect.addListener(function(port) {
         chrome.storage.local.set({location:""});
         chrome.storage.local.set({company:""});
         chrome.storage.local.set({window_open: false});
+        chrome.storage.local.set({url: ""});
       });
   }
 });

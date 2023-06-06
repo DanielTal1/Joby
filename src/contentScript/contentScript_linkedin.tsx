@@ -16,13 +16,6 @@ chrome.runtime.onMessage.addListener(
                 if (request.message === 'newUrl!') {
                     setTimeout(function(){linkedinClickedByText()}, 2000);
                   }
-                  if (request.message === 'log_true'){
-                    alert("log_true");
-            
-                  }
-                  if(request.message === 'log_false'){
-                    alert("log_false");
-                  }
             }
           });
   });
@@ -35,16 +28,15 @@ chrome.runtime.onMessage.addListener(
 function linkedinClickedByText(){
     var elements = document.getElementsByTagName("button");  
     var searchedText="Apply"
+    chrome.runtime.sendMessage(null,'getUrl');
     for(var i=0;i<elements.length;i++){
         if (elements[i].textContent.includes(searchedText)) {
             console.log("----------------------------------")
             console.log("found");
             console.log(elements[i].id)
             elements[i].addEventListener('click', function() {
-                alert("Clicked");
                 linkedinGetData();
                 chrome.storage.local.get("log", function(data) {
-                    alert(data.log);
                     if(data.log){
                         chrome.runtime.sendMessage(null,'openForm');
                     }

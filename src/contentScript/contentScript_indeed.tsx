@@ -1,9 +1,10 @@
 
 
 window.onload=function(){
+
     chrome.storage.local.get("isIndeed", function(data) {
         if(data.isIndeed){
-            setTimeout(function(){indeedClickedByClass()}, 4000);
+            setTimeout(function(){indeedClickedByClass()}, 2000);
         }
     });
 }
@@ -17,13 +18,6 @@ chrome.runtime.onMessage.addListener(
                 if (request.message === 'newUrl!') {
                     setTimeout(function(){indeedClickedByClass()}, 2000);
                 }
-                if (request.message === 'log_true'){
-                    alert("log_true");
-
-                }
-                if(request.message === 'log_false'){
-                    alert("log_false");
-                }  
             }
         });
 
@@ -41,29 +35,28 @@ function messageBackground(){
 
 
 
-function indeedGetData(innerDoc){
-    console.log("hi2")
-    var jobTitle = innerDoc.getElementsByClassName("icl-u-xs-mb--xs icl-u-xs-mt--none jobsearch-JobInfoHeader-title is-embedded");
-    var location=innerDoc.getElementsByClassName("css-6z8o9s eu4oa1w0");
-    var company=innerDoc.getElementsByClassName("css-1cjkto6 eu4oa1w0")[1].children[0];
+function indeedGetData(){
+    var jobTitle = document.getElementsByClassName("icl-u-xs-mb--xs icl-u-xs-mt--none jobsearch-JobInfoHeader-title is-embedded");
+    var location=document.getElementsByClassName("css-6z8o9s eu4oa1w0");
+    var company=document.getElementsByClassName("css-1cjkto6 eu4oa1w0")[1];
 
     if(jobTitle.length>0&&location.length>0&&company!=null){
-        chrome.storage.local.set({jobTitle: jobTitle[0].innerText.trim()});
-        chrome.storage.local.set({location: location[0].innerText.trim()});
-        chrome.storage.local.set({company: company.innerText.trim()});
+        chrome.storage.local.set({jobTitle: jobTitle[0].textContent.trim()});
+        chrome.storage.local.set({location: location[0].textContent.trim()});
+        chrome.storage.local.set({company: company.textContent.trim()});
     }
 }
 
 
 
 function indeedClickedByClass(){
-    const buttonId=["indeedApplyButton","applyButtonLinkContainer"];
     console.log("hi");
+    chrome.runtime.sendMessage(null,'getUrl');
+    const buttonId=["indeedApplyButton","applyButtonLinkContainer"];
     var element=null;
-    var iframe = document.getElementById('vjs-container-iframe') as HTMLIFrameElement;
-    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
     for(var i=0;i<buttonId.length;i++){
-        element=innerDoc.getElementById(buttonId[i]);
+        element=document.getElementById(buttonId[i]);
+        console.log(element);
         if(element!=null){
             break;
         } 
@@ -71,13 +64,9 @@ function indeedClickedByClass(){
     if(element==null){
         return;
     }
-    var company=innerDoc.getElementsByClassName("css-1cjkto6 eu4oa1w0")[1];
-    console.log(company.children[0].innerHTML)
     element.onclick=function(){
-                alert("Clicked");
-        indeedGetData(innerDoc);
+        indeedGetData();
         chrome.storage.local.get("log", function(data) {
-            alert(data.log);
             if(data.log){
                 messageBackground();
             }
