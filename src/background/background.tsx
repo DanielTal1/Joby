@@ -36,8 +36,8 @@ chrome.windows.onRemoved.addListener(function(windowid) {
 
 function openForm(){
     chrome.windows.create({
-        width: 400,
-        height: 600,
+        width: 600,
+        height: 650,
         type: 'popup',
         url: 'logged_in.html',
         top: 0,
@@ -76,6 +76,18 @@ function sendMessage(info,message){
     });
 }
 
+chrome.runtime.onConnect.addListener(function(port) {
+  if (port.name === "popup") {
+      port.onDisconnect.addListener(function() {
+        chrome.storage.local.set({jobTitle:""});
+        chrome.storage.local.set({location:""});
+        chrome.storage.local.set({company:""});
+        chrome.storage.local.set({window_open: false});
+      });
+  }
+});
+
+
 async function openFormContextMenu(){
     chrome.storage.local.get(null, function(data) {
         if(!data.window_open){
@@ -87,20 +99,20 @@ async function openFormContextMenu(){
 
 async function addCompany(info,sendMessageFunc){
     await openFormContextMenu();
-    chrome.storage.local.set({company: info.selectionText});
+    await chrome.storage.local.set({company: info.selectionText});
     sendMessageFunc(info,"addCompany");
 }
 
 async function addRole(info,sendMessageFunc){
     await openFormContextMenu();
-    chrome.storage.local.set({jobTitle: info.selectionText});
+    await chrome.storage.local.set({jobTitle: info.selectionText});
     sendMessageFunc(info,"addRole");
 }
 
 
 async function addLocation(info,sendMessageFunc){
     await openFormContextMenu();
-    chrome.storage.local.set({location: info.selectionText});
+    await chrome.storage.local.set({location: info.selectionText});
     sendMessageFunc(info,"addLocation");
 }
 

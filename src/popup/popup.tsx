@@ -21,13 +21,7 @@ const App=()=> {
         setErrors(checkErrors(userName,password));
     };
 
-    const headers = new Headers();
-    headers.append('content-type', 'application/json');
-    const init = {
-        method: 'POST',
-        headers,
-        body:JSON.stringify({ Username:userName,Password:password })
-      };
+
 
 
     //checking errors in entered values
@@ -47,11 +41,26 @@ const App=()=> {
         return isError;
     };
 
-    const checkDataBase=(()=>{
-        setIsChecked(true)
-})
 
+    const headers = new Headers();
+    headers.append('content-type', 'application/json');
+    const init = {
+        method: 'POST',
+        headers,
+        body:JSON.stringify({ username:userName,password:password })
+      };
 
+    const checkDataBase=(async()=>{
+        fetch('http://localhost:3000/auth/login', init)
+        .then( response => response.json() )
+        .then( data => {
+            if(data.message==="logged in successfully"){
+                setIsFound(true)
+            }
+            setIsChecked(true)
+        } )
+
+    })
 
     //checks if there are no errors and user found in database
     useEffect(()=>{
@@ -80,20 +89,16 @@ const App=()=> {
       }
     useEffect(()=>{
         if(isFound){
-            setIsRedirect(true);
+            login_success()
         }
         else if(!isFound&&isChecked&&isSubmit){
-            /*
             setUserNameError("");
             setpassWordError("");
             setloginError("Invalid username or password");
             setIsSubmit(false);
             setIsChecked(false);
-            */
-            login_success()
         }
     },[isChecked]);
-    //redirects to chat if necessary
 
     return (
         
