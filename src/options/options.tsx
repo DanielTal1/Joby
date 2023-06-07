@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom'
-
+import './options.css'
 const App=()=> {
 
     function defaultRadioBtn(id_true,id_false){
@@ -61,13 +61,12 @@ const App=()=> {
     }
 
     return (
-        
         <div className="wrapper">
             <div className="inner-warpper text-center">
                 <h2 className="title">OPTIONS</h2>
                 <form action="" id="formvalidate" >
                     <div className="input-group">
-                        <h2 className="title">Linkedin automatic</h2>
+                        <h2 className="title2">Linkedin automatic</h2>
                         <label className="container">Enable
                             <input type="radio" id="linkedin_enable"  name='linkedin' onChange={(e: React.ChangeEvent<HTMLInputElement>): void => changeStorage(e.target.id)}/>
                             <span className="checkmark"></span>
@@ -78,7 +77,7 @@ const App=()=> {
                         </label>
                     </div>
                     <div className="input-group">
-                        <h2 className="title">Indeed automatic</h2>
+                        <h2 className="title2">Indeed automatic</h2>
                         <label className="container">Enable
                             <input type="radio"  id="indeed_enable" name='indeed' onChange={(e: React.ChangeEvent<HTMLInputElement>): void => changeStorage(e.target.id)} />
                             <span className="checkmark"></span>
