@@ -10,7 +10,8 @@ module.exports={
         background: path.resolve('src/background/background.tsx'),
         contentScript_linkedin: path.resolve('src/contentScript/contentScript_linkedin.tsx'),
         contentScript_indeed: path.resolve('src/contentScript/contentScript_indeed.tsx'),
-        logged_in:path.resolve('src/popup/logged_in.tsx')
+        logged_in:path.resolve('src/popup/logged_in.tsx'),
+        form_page:path.resolve('src/form/form_page.tsx')
     },
     module:{
         rules:[
@@ -42,7 +43,7 @@ module.exports={
             ]
         }),
         ...getHtmlPlugins([
-            'popup','options','logged_in'
+            'popup','options','logged_in','form_page'
         ])
     ],
     resolve:{

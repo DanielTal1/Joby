@@ -1,10 +1,7 @@
 body {
     background: #f2f2f2;
   }
-  .animate {
-    -webkit-transition: all 0.3s linear;
-    transition: all 0.3s linear;
-  }
+
   .title{
     text-align: center;
     font-size: 25px;
@@ -16,43 +13,7 @@ body {
   .error{
     color: #D91717;
   }
-  .pull-left {
-    float: left;
-  }
-  .pull-right {
-    float: right;
-  }
-  .clearfix:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
-  .clearfix {
-    display: inline-block;
-  }
-  /* start commented backslash hack \*/
-  * html .clearfix {
-    height: 1%;
-  }
-  .clearfix {
-    display: block;
-  }
-  /* close commented backslash hack */
-  a {
-    color: #00A885;
-  }
-  a:hover,
-  a:focus {
-    color: #00755d;
-    -webkit-transition: all 0.3s linear;
-    transition: all 0.3s linear;
-  }
-  .text-primary {
-    color: #00A885;
-  }
+  
   input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 1000px white inset !important;
   }
@@ -65,7 +26,7 @@ body {
   }
   button {
     cursor: pointer;
-    background: #edb11b;
+    background: #0093AF;
     width: 100%;
     border: 0;
     padding: 10px 15px;
@@ -73,21 +34,9 @@ body {
     font-size: 15px;
     -webkit-transition: 0.3s linear;
     transition: 0.3s linear;
+    border-radius: 5px;
   }
-  span.validate-tooltip {
-    background: #D91717;
-    width: 100%;
-    display: block;
-    padding: 5px;
-    color: #fff;
-    box-sizing: border-box;
-    font-size: 14px;
-    margin-top: -10px;
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-    -webkit-animation: tooltipanimation 0.3s 1;
-    animation: tooltipanimation 0.3s 1;
-  }
+ 
   .input-group {
     position: relative;
     margin-bottom: 10px;
@@ -106,25 +55,9 @@ body {
     box-sizing: border-box;
     -webkit-transition: 0.3s ease;
     transition: 0.3s ease;
-  }
-  .input-group .lighting {
-    background: #00A885;
-    width: 0;
-    height: 2px;
-    display: inline-block;
-    position: absolute;
-    top: 20px;
-    left: 0;
-    -webkit-transition: all 0.3s linear;
-    transition: all 0.3s linear;
-  }
-  .input-group.focused .lighting {
-    width: 100%;
+    border-radius: 5px;
   }
 
-  .input-group span.validate-tooltip {
-    margin-top: 0;
-  }
   .wrapper {
     width: 320px;
     background: #fff;
@@ -139,64 +72,4 @@ body {
   .wrapper .title {
     margin-top: 0;
   }
-  .wrapper .supporter {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #8E8E8E;
-    cursor: pointer;
-  }
-  .wrapper .remember-me {
-    cursor: pointer;
-  }
-  .wrapper input[type="checkbox"] {
-    float: left;
-    margin-right: 5px;
-    margin-top: 2px;
-    cursor: pointer;
-  }
-
-  .wrapper .signup-wrapper {
-    padding: 10px;
-    font-size: 14px;
-    background: #EBEAEA;
-  }
-  .wrapper .signup-wrapper a {
-    text-decoration: none;
-    color: #7F7F7F;
-  }
-  .wrapper .signup-wrapper a:hover {
-    text-decoration: underline;
-  }
-  @-webkit-keyframes tooltipanimation {
-    from {
-      margin-top: -20px;
-    }
-    to {
-      margin-top: 0;
-    }
-  }
-  @keyframes tooltipanimation {
-    from {
-      margin-top: -20px;
-    }
-    to {
-      margin-top: 0;
-    }
-  }
-  .direction {
-    width: 200px;
-    position: fixed;
-    top: 70px;
-    left: 10px;
-    font-size: 14px;
-    line-height: 1.2;
-    text-align: center;
-    background: #9365B8;
-    padding: 5px;
-    color: #fff;
-  }
-  @media (max-width: 480px) {
-    .direction {
-      position: static;
-    }
-  }
+  

@@ -50,10 +50,10 @@ chrome.windows.onRemoved.addListener(function(windowid) {
 
 function openForm(){
     chrome.windows.create({
-        width: 600,
-        height: 650,
+        width: 370,
+        height: 450,
         type: 'popup',
-        url: 'logged_in.html',
+        url: 'form_page.html',
         top: 0,
         left: 0,
         focused: true
