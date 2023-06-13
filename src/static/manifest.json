@@ -30,7 +30,7 @@
         }
     ],
     "permissions": [
-        "storage","activeTab","tabs","contextMenus"
+        "storage","activeTab","tabs","contextMenus","action"
       ],
       "host_permissions": ["http://localhost:3000/*"]
 

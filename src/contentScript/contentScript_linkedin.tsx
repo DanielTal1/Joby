@@ -3,7 +3,8 @@
 window.onload=function(){
     chrome.storage.local.get("isLinkedin", function(data) {
         if(data.isLinkedin){
-            linkedinClickedByText()
+            chrome.runtime.sendMessage({ action: 'changeBadge', value: 'Wait' });
+            setTimeout(function(){linkedinClickedByText()}, 7000);
         }
       });
 }
@@ -14,6 +15,7 @@ chrome.runtime.onMessage.addListener(
         chrome.storage.local.get("isLinkedin", function(data) {
             if(data.isLinkedin){
                 if (request.message === 'newUrl!') {
+                    chrome.runtime.sendMessage({ action: 'changeBadge', value: 'Wait'});
                     setTimeout(function(){linkedinClickedByText()}, 2000);
                   }
             }
@@ -34,6 +36,7 @@ function linkedinClickedByText(){
             console.log("----------------------------------")
             console.log("found");
             console.log(elements[i].id)
+            chrome.runtime.sendMessage({ action: 'changeBadge', value: 'Ready' });
             elements[i].addEventListener('click', function() {
                 linkedinGetData();
                 chrome.storage.local.get("log", function(data) {

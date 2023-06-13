@@ -12,6 +12,7 @@ chrome.tabs.onUpdated.addListener(
       // read changeInfo data and do something with it
       // like send the new url to contentscripts.js
       if (changeInfo.url) {
+        chrome.action.setBadgeText({ text: '' });
         chrome.tabs.sendMessage( tabId, {
           message: 'newUrl!',
         })
@@ -26,6 +27,10 @@ chrome.runtime.onMessage.addListener(async (msg,sender,sendResponse)=>{
     }
     if(msg==='getUrl'){
       await getUrl();
+    }
+    if(msg.hasOwnProperty('action') && msg.action==='changeBadge'){
+      const badgeText = msg.value.toString(); // Convert the value to a string
+      chrome.action.setBadgeText({ text: badgeText });
     }
 });
 
@@ -46,6 +51,7 @@ chrome.windows.onRemoved.addListener(function(windowid) {
     chrome.storage.local.set({company:""});
     chrome.storage.local.set({window_open: false});
     chrome.storage.local.set({url: ""});
+    chrome.action.setBadgeText({ text: '' });
    })
 
 function openForm(){
