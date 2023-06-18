@@ -16,6 +16,15 @@ const App=()=> {
     chrome.runtime.connect({ name: "popup" });
 
 
+    useEffect(() => {
+        chrome.storage.local.get("user_name", function(data) {
+            setUserName(data.user_name)
+        
+        });
+
+      }, []); 
+
+
     const sunbmitFun = (e) => {
         e.preventDefault();
         setError("")
@@ -37,7 +46,6 @@ const App=()=> {
         if(send&&error==""){
             sendJob()
             setSend(false)
-            window.close();
         }
     },[error,send]);
 
@@ -51,8 +59,19 @@ const App=()=> {
         body:JSON.stringify({ username:userName,company:company,location:location,role:jobTitle,url:url })
       };
 
-    const sendJob=(async()=>{
+      const sendJob=(async()=>{
         fetch('http://localhost:3000/jobs', init)
+        .then( response => response.json() )
+        .then( data => {
+            if(data.message==="Job added successfully"){
+                window.close();
+            }
+            else{
+                setSend(false)
+                setError("Error")
+            }
+        } )
+
     })
 
 
