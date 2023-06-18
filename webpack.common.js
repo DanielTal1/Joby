@@ -5,6 +5,7 @@ const {CleanWebpackPlugin}= require('clean-webpack-plugin');
 
 module.exports={
     entry:{
+        //entry points for different files
         popup:path.resolve('src/popup/popup.tsx'),
         options:path.resolve('src/options/options.tsx'),
         background: path.resolve('src/background/background.tsx'),
@@ -31,9 +32,11 @@ module.exports={
         ]
     },
     plugins:[
+        //clean the dist folder before each build
         new CleanWebpackPlugin({
             cleanStaleWebpackAssets:false,
         }),
+         //copy static files to the dist folder
         new CopyPlugin({
             patterns:[
                 {
@@ -60,7 +63,7 @@ module.exports={
     }
 }
  
-//choose which html chunk in chosen
+//helper function to generate HTML plugins for each entry point
 function getHtmlPlugins(chunks){
     return chunks.map(chunk=>new HtmlPlugin({
         title:'Jobsy',

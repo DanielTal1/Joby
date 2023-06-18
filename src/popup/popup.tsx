@@ -72,16 +72,9 @@ const App=()=> {
     },[errors,loginError]);
 
 
-    function sendLogIn() {
-        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            var activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, {"message": "log_true"});
-        });
-    }
-
+    //function to handle login success
     function login_success() {
         chrome.storage.local.set({log: true});
-        sendLogIn();
         chrome.storage.local.set({user_name:userName});
         chrome.action.setPopup({popup: "logged_in.html"});
         window.location.href = 'logged_in.html';

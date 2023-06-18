@@ -1,22 +1,28 @@
+/*
+contentScript is a file that runs in the context of web pages.
+It is injected into a webpage by the browser when specified conditions are met,
+such as when the extension is enabled for a particular website.
+*/
 
-
+//when loading page
 window.onload=function(){
     chrome.storage.local.get("isLinkedin", function(data) {
         if(data.isLinkedin){
-            chrome.runtime.sendMessage({ action: 'changeBadge', value: 'Wait' });
-            setTimeout(function(){linkedinClickedByText()}, 7000);
+            chrome.runtime.sendMessage({ action: 'changeBadge', value: 'Wait' }); //changing the badge to wait
+            setTimeout(function(){linkedinClickedByText()}, 7000);//waiting to let the page load
         }
       });
 }
 
-
+//listens to a new url message from background
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         chrome.storage.local.get("isLinkedin", function(data) {
             if(data.isLinkedin){
+                // listen for messages sent from background.js
                 if (request.message === 'newUrl!') {
-                    chrome.runtime.sendMessage({ action: 'changeBadge', value: 'Wait'});
-                    setTimeout(function(){linkedinClickedByText()}, 2000);
+                    chrome.runtime.sendMessage({ action: 'changeBadge', value: 'Wait'});//changing the badge to wait
+                    setTimeout(function(){linkedinClickedByText()}, 2000);//waiting to let the page load
                   }
             }
           });
@@ -25,8 +31,7 @@ chrome.runtime.onMessage.addListener(
 
 
 
-
-
+//function to get the applying button and assign an callback to it
 function linkedinClickedByText(){
     var elements = document.getElementsByTagName("button");  
     var searchedText="Apply"
@@ -50,9 +55,8 @@ function linkedinClickedByText(){
 
 }
 
-
+ //function to get the job title, location, and company elements from web page
 function linkedinGetData(){
-    console.log("hi2")
     var jobTitle = document.getElementsByClassName("t-24 t-bold jobs-unified-top-card__job-title");
     var location=document.getElementsByClassName("jobs-unified-top-card__bullet");
     var company=document.getElementsByClassName("jobs-unified-top-card__company-name");

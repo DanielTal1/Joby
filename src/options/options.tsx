@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import './options.css'
 const App=()=> {
 
+    //function to set default radio button selection
     function defaultRadioBtn(id_true,id_false){
         var radBtnDefault = document.getElementById(id_true) as HTMLInputElement;;
         radBtnDefault.defaultChecked = true;
@@ -11,6 +12,7 @@ const App=()=> {
         radBtnDefault.defaultChecked = false;
     }
 
+    //function to change the storage value based on the radio button selection
     function changeStorage(value){
         if(value==="linkedin_disable"){
             chrome.storage.local.set({isLinkedin: false});
@@ -24,6 +26,7 @@ const App=()=> {
     }
 
 
+    //set the initial radio button selection for Linkedin and Indeed options from storage
     chrome.storage.local.get("isLinkedin", function(data) {
         if(data.isLinkedin){
             defaultRadioBtn("linkedin_enable","linkedin_disable");
@@ -39,10 +42,10 @@ const App=()=> {
         }
       });
 
+    //function to handle logout
     const logOutFunc = (e) => {
         e.preventDefault();
         chrome.storage.local.set({log: false});
-        sendLogOut();
         chrome.storage.local.set({user_name:""});
         chrome.action.setPopup({popup: "popup.html"});
         chrome.storage.local.set({jobTitle:""});
@@ -52,13 +55,6 @@ const App=()=> {
         window.close();
     };
     
-
-    function sendLogOut() {
-        chrome.tabs.query({currentWindow: true, active: true}, function (tabs){
-            var activeTab = tabs[0];
-            chrome.tabs.sendMessage(activeTab.id, {"message": "log_false"});
-        });
-    }
 
     return (
         <div className="wrapper">

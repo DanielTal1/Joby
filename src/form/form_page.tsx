@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './form_page.css';
 
+
 const App = () => {
   const [userName, setUserName] = useState('');
   const [jobTitle, setJobTitle] = useState('');
@@ -11,8 +12,10 @@ const App = () => {
   const [url, setUrl] = useState('');
   const [error, setError] = useState('');
   const [send, setSend] = useState(false);
+  //connect to the background script(popup is the name of the port to passing messages)
   chrome.runtime.connect({ name: 'popup' });
 
+  //fetch initial data from Chrome storage
   useEffect(() => {
     chrome.storage.local.get("user_name", function(data) {
         setUserName(data.user_name)
@@ -42,19 +45,16 @@ const App = () => {
             console.log(url);
         }
     });
+  }, []); //works once at the when form created
 
-  }, []); 
-
+  //function to handle form submission
   const sunbmitFun = (e) => {
     e.preventDefault();
-    console.log(userName);
-    console.log(company);
-    console.log(location);
-    console.log(company);
     setError('');
     setSend(checkErrors());
   };
 
+  //function to check form errors
   const checkErrors = () => {
     if (jobTitle === '' || location === '' || company === '') {
       setError('Please insert all values');
@@ -63,6 +63,7 @@ const App = () => {
     return true;
   };
 
+  //use effect to send job data when send and error states change
   useEffect(() => {
     if (send && error === '') {
       sendJob();
@@ -70,6 +71,7 @@ const App = () => {
     }
   }, [error, send]);
 
+  //HTTP headers and request body for sending job data
   const headers = new Headers();
   headers.append('content-type', 'application/json');
   const init = {
@@ -78,6 +80,7 @@ const App = () => {
     body: JSON.stringify({ username: userName, company: company, location: location, role: jobTitle, url: url }),
   };
 
+  //function to send job data to the server
   const sendJob = async () => {
     fetch('http://localhost:3000/jobs', init)
       .then((response) => response.json())
@@ -91,9 +94,10 @@ const App = () => {
       });
   };
 
+  //listen for messages from the background script
+  //when changing values with marking text and right click
   chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        console.log("got_message")
         if(request.msg=="addCompany"){
             (document.getElementById("Company") as HTMLInputElement).value=request.data.content
             setCompany(request.data.content)

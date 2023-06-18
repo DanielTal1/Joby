@@ -15,46 +15,9 @@ const App=()=> {
     const[send,setSend]=useState(false);
     chrome.runtime.connect({ name: "popup" });
 
-    useEffect(() => {
-        chrome.storage.local.get("user_name", function(data) {
-            setUserName(data.user_name)
-        
-        });
-        chrome.storage.local.get("jobTitle", function(data) {
-            if(data.jobTitle!=null){
-                setJobTitle(data.jobTitle);
-                (document.getElementById("Role") as HTMLInputElement).value=data.jobTitle
-            }
-        });
-        chrome.storage.local.get("location", function(data) {
-            if(data.location!=null){
-                setLocation(data.location);
-                (document.getElementById("Location") as HTMLInputElement).value=data.location
-            }
-        });
-        chrome.storage.local.get("company", function(data) {
-            if(data.company!=null){
-                setCompany(data.company);
-                (document.getElementById("Company") as HTMLInputElement).value=data.company;
-            }
-        });
-        chrome.storage.local.get("url", function(data) {
-            if(data.url!=null){
-                setUrl(data.url);
-                console.log(url);
-            }
-        });
-
-      }, []); 
-
-
 
     const sunbmitFun = (e) => {
         e.preventDefault();
-        console.log(userName)
-        console.log(company)
-        console.log(location)
-        console.log(company)
         setError("")
         setSend(checkErrors());
     };
@@ -70,9 +33,11 @@ const App=()=> {
 
 
     useEffect(()=>{
+        //send job if send is true and there are no errors
         if(send&&error==""){
             sendJob()
             setSend(false)
+            window.close();
         }
     },[error,send]);
 
@@ -88,37 +53,7 @@ const App=()=> {
 
     const sendJob=(async()=>{
         fetch('http://localhost:3000/jobs', init)
-        .then( response => response.json() )
-        .then( data => {
-            if(data.message==="Job added successfully"){
-                window.close();
-            }
-            else{
-                setSend(false)
-                setError("Error")
-            }
-        } )
-
     })
-
-    chrome.runtime.onMessage.addListener(
-        function(request, sender, sendResponse) {
-            console.log("got_message")
-            if(request.msg=="addCompany"){
-                (document.getElementById("Company") as HTMLInputElement).value=request.data.content
-                setCompany(request.data.content)
-            }
-            else if(request.msg=="addRole"){
-
-                (document.getElementById("Role") as HTMLInputElement).value=request.data.content
-                setJobTitle(request.data.content)
-            }
-            else if(request.msg=="addLocation"){
-                (document.getElementById("Location") as HTMLInputElement).value=request.data.content
-                setLocation(request.data.content)
-            }
-        }
-    );
 
 
 
