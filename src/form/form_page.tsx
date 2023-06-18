@@ -87,7 +87,11 @@ const App = () => {
       .then((data) => {
         if (data.message === 'Job added successfully') {
           window.close();
-        } else {
+        }else if(data.message==="Job already exists"){
+          setSend(false)
+          setError("Job already exists")
+      }
+        else {
           setSend(false);
           setError('Error');
         }
